@@ -1,0 +1,71 @@
+#sites-list {
+  @include pie-clearfix();
+  margin:0 0 50px;
+
+  li {
+    $margin: 15px;
+
+    float:left;
+    height:400px;
+    width:$cell - $margin;
+    margin:0 $margin 20px 0;
+
+    div {
+      height:350px;
+
+      img { border:1px solid $borderLight; cursor:pointer; }
+    }
+
+    strong, button { display:block; color: $color; }
+
+    p {
+      height:15px;
+      margin-bottom:5px;
+
+      strong {
+        text-align:center;
+        font-weight:bold;
+        font-size:15px;
+        line-height:15px;
+      }
+    }
+
+    button {
+      cursor:pointer;
+      border:1px solid $borderLight;
+
+      font-size:12px;
+
+      width:180px;
+      padding:4px 6px;
+      margin:0 auto;
+
+      background-color: #EEEEEE;
+
+      @include filter-gradient(#EEEEEE, #E4E4E4, vertical); // IE6-8
+      $experimental-support-for-svg: true;
+      @include background-image(linear-gradient(top, #EEEEEE 0%,#E4E4E4 100%));
+
+      &:hover {
+        border:1px solid $borderLighter;
+        @include text-shadow($borderLight 1px 1px 1px);
+
+        @include filter-gradient(#E4E4E4, #D2D2D2, vertical); // IE6-8
+        $experimental-support-for-svg: true;
+        @include background-image(linear-gradient(top, #E4E4E4 0%,#D2D2D2 100%));
+      }
+    }
+  }
+}
+
+@-webkit-keyframes blink {
+  0%   { opacity: 1.0; }
+  50%  { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+.blink {
+  -webkit-animation-name: blink;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-duration: 2s;
+}

@@ -1,0 +1,81 @@
+@import "compass/utilities/general/clearfix";
+@import "compass/reset";
+@import "compass/css3";
+
+$logoColor:#EFEFEF;
+
+$color: #333;
+$border: #666;
+
+$borderLight: #CCC;
+$borderLighter:#AAA;
+
+$cell:475px;
+
+html, body { height:100%; background:#FFF; }
+a { color: $color; text-decoration:none; }
+
+#page, #top {
+  > .inner { 
+    width: $cell * 2;
+    margin:0 auto; 
+  }
+}
+
+#top {
+  @include pie-clearfix();
+
+  background-color: rgb(0,0,0);
+  @include filter-gradient(#151515, #2D2D2D, vertical);
+  $experimental-support-for-svg: true;
+  @include background-image(linear-gradient(top, #151515 0%, #2D2D2D 100%));
+  @include box-shadow(0 1px 2px rgba(0,0,0,.55), inset 0 -2px 0 rgba(0,0,0,.1));
+
+  width:100%;
+  height:50px;
+  margin:0 0 20px;
+
+  .inner {
+    height:100%;
+
+    h1 {
+      float:left;
+
+      width:200px;
+      margin:-2px 0 0;
+
+      em {
+        font-style:italic;
+        margin-right:0.1em;
+      }
+
+      a {
+        color:$logoColor;
+        text-decoration:none;
+
+        font-family: 'News Cycle', sans-serif;
+        font-size:48px;
+      }
+    }
+  }
+}
+
+@-webkit-keyframes rainbow {
+  0%   { color: #FFF; }
+  25%  { color: #C00; }
+  50%  { color: #0C0; }
+  75%  { color: #22F; }
+  100% { color: #FFF; }
+}
+
+.rainbow {
+  -webkit-animation-name: rainbow;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-duration: 99s;
+}
+
+
+// include stuff
+@import "sites-list";
+@import "preview";
+@import "responsive";

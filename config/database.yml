@@ -1,0 +1,20 @@
+pg_common: &pg_common
+  adapter: postgresql
+  username: juxtanews
+  password: juxtanews
+  pool: 10
+  port: 5433
+
+development:
+  <<: *pg_common
+  database: juxtanews_dev
+
+test:
+  <<: *pg_common
+  database: juxtanews_test
+
+#production:
+#  adapter: sqlite3
+#  database: db/production.sqlite3
+#  pool: 10
+#  timeout: 5000

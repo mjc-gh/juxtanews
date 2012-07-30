@@ -1,0 +1,16 @@
+development:
+  bucket: juxtanews_development
+  access_key_id: AKIAJJCL3Y2W4XLO6HBQ
+  secret_access_key: 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
+
+test:
+  bucket: juxtanews_test
+  access_key_id: AKIAJJCL3Y2W4XLO6HBQ
+  secret_access_key: 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
+
+production:
+  bucket: juxtanews
+  access_key_id: <%= ENV['S3_ACCESS_KEY'] %>
+  secret_access_key: <%= ENV['S3_SECRET_ACCESS_KEY'] %>
+  #access_key_id: AKIAJJCL3Y2W4XLO6HBQ
+  #secret_access_key: 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

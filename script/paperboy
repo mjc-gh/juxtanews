@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+puts File.expand_path('../../config/application.rb',  __FILE__)
+
+
+puts Site
+puts Paperboy
