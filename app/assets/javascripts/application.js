@@ -5,8 +5,7 @@
 //= require_tree .
 
 $(function(){
-	var sites = new Juxtanews.SiteList();
-	var preview = new Juxtanews.SiteListView(sites);
+	Juxtanews.app = new Juxtanews.Router();
 
-	sites.fetch();
+	Backbone.history.start();
 });

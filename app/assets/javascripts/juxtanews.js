@@ -6,7 +6,9 @@ var Juxtanews = {
 
 	tmpl: function(selector){
 		return _.template($(selector).html());
-	}
+	},
+
+	controllers: _.extend({}, Backbone.Events),
 };
 
 // polyfill for Date#now
@@ -15,6 +17,17 @@ if (!Date.now) Date.now = function(){ return +new Date(); }
 // redefine underscore template options
 _.templateSettings.interpolate = /\{\{\=(.+?)\}\}/g;
 _.templateSettings.evaluate = /\{\{(.+?)\}\}/g;
+
+// centerTo jquery method
+jQuery.fn.centerTo = function(el){
+	if (!el.jquery)
+		el = $(el);
+
+	return this.css({
+		top: (el.height() / 2) - (this.height() / 2),
+		left: (el.width() / 2) - (this.width() / 2)
+	});
+}
 
 // localize date
 function ld(str){

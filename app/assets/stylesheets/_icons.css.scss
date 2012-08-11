@@ -1,0 +1,28 @@
+/*.circle-icon {
+  background: url('img/circle-icons.png') no-repeat top left;
+  height:26px;
+  width:26px;
+  display:inline-block;
+
+  &.exclamation-mark { background-position: 0 0; }
+  &.info { background-position: -26px 0; }
+  &.minus { background-position: -52px 0; }
+  &.ok { background-position: -78px 0; }
+  &.plus { background-position: -104px 0; }
+  &.question-mark { background-position: -130px 0; }
+  &.remove { background-position: -156px 0; }
+  &.arrow-left { background-position: -182px 0; }
+  &.arrow-right { background-position: -208px 0; }
+}*/
+
+.icon {
+  background: url('img/icons.png') no-repeat top left;
+  height:26px;
+  width:26px;
+  display:inline-block;
+
+  &.new-window { background-position:0 0; }
+  &.remove { background-position:-27px 0; }
+  &.right-arrow { background-position:-54px 0; }
+  &.left-arrow { background-position:-83px 0; }
+}
