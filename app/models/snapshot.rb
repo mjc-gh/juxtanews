@@ -1,8 +1,7 @@
 class Snapshot < ActiveRecord::Base
   attr_accessible :runtime, :site_id, :image
 
-  belongs_to :site, counter_cache: true
-  validates :site, presence: true
+  belongs_to :site, counter_cache: true, include: false
 
   has_attached_file :image,
     path: ':site_ident/:hash-:style.:extension',
@@ -13,22 +12,20 @@ class Snapshot < ActiveRecord::Base
     #s3_protocol: Rails.env.production? ? 'https' : 'http',
 
     styles: {
-      original: ['100%', :png], preview: ['', :png]
+      original: ['100%', :png], preview: ['', :png], thumbnail: ['', :png]
     },
 
     convert_options: {
-      preview: '-crop 1024x768+0+0 -thumbnail 460x345 -quality 100'
+      preview: '-crop 1024x768+0+0 -thumbnail 460x345 -quality 100',
+      thumbnail: '-crop 1024x768+0+0 -thumbnail 220x165 -quality 100'
     }
 
   validates :image, attachment_presence: true
+  validates :site, :site_ident, presence: true
 
-  ##
-  # TODO make this suck less; hack for paperclip
-  # since Tempfile throws some random news after the extension
-  #before_save do
-  #  self.image_file_name = 'snapshot.png'
-  #end
-
+  before_validation do
+    self.site_ident = site.ident if site
+  end
 
   after_create do
     site.last_snapshot_preview = self.preview
@@ -38,21 +35,18 @@ class Snapshot < ActiveRecord::Base
     site.save(validate: false)
   end
 
-
-  def preview
-    image :preview
+  %w[ preview original thumbnail ].each do |type|
+    define_method type do
+      image type.to_sym
+    end
   end
 
-  def original
-    image :original
-  end
-
-  def serializable_hash(options = {})
+  def serializable_hash(opts = {})
     options = {
-      methods: [ :preview, :original ],
+      methods: [ :original ],
       only: [ :id, :created_at ]
     }
 
-    super options
+    super options.merge!(opts)
   end
 end

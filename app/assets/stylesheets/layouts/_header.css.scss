@@ -1,0 +1,27 @@
+.logo {
+  @include text-shadow(rgba(0,0,0,.25) 4px 4px 10px);
+  @include transform(rotate(-8deg));
+
+  position:absolute;
+  height:300px;
+
+  top:30px;
+  left:100px;
+
+  font-family: $handFont;
+  font-weight:bold;
+  font-size:128px;
+
+  @include animation(giggity 99s infinite);
+}
+
+#nav {
+  position:fixed;
+  height:28px;
+  width:56px;
+
+  right:25px;
+  bottom:10px;
+}
+
+

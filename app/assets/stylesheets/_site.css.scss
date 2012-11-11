@@ -1,9 +1,0 @@
-#site-view {
-  @include pie-clearfix();
-
-  max-width: 5 * ($thumbnail + 10px);
-  margin:0 auto;
-
-  @include snapshot-cell(165px, $thumbnail, 10px);
-  @include snapshot-cell-date(14px);
-}

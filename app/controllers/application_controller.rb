@@ -5,6 +5,7 @@ class ApplicationController < ActionController::API
   self.page_cache_directory = Rails.public_path
 
   respond_to :json, :xml
+
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found 
 
   def render_not_found(exception)

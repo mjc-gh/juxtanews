@@ -1,38 +1,44 @@
 Juxtanews.Router = Backbone.Router.extend({
-	routes: {
-		'': 'sites:index',
-		'sites/:id': 'sites:show',
-		'sites/:site_id/snapshots/:id': 'snapshots:show'
-	},
+  routes: {
+    '': 'sites:index',
+    'about': 'content:about',
+    'sites/:id': 'sites:show',
+    'sites/:site_id/snapshots/:id': 'snapshots:show'
+  },
 
-	initialize:function(){
-		var events = {};
+  initialize:function(controllers){
+    var events = {};
 
-		// inverted routes object map
-		for (var route in this.routes)
-			events[this.routes[route]] = route;
+    this.controllers = _.extend(controllers, {
+      back: function(){ this.trigger(':back'); }
+    });
 
-		// whenever controller is trigged try to navigate()
-		Juxtanews.controllers.on('all', function(ev){
-			var args = Array.prototype.splice.call(arguments, 1);
-			var route = events[ev].split(/\/:\w+\/?/, args.length);
-			var fragment = _.chain(route).zip(args).flatten().join('/');
+    // inverted routes object map
+    for (var route in this.routes)
+      events[this.routes[route]] = route;
 
-			console.log('controller#trigger', ev, args);
+    // whenever controller is trigged try to navigate()
+    this.controllers.on('all', function(ev){
+      if (ev == ':back')
+        return window.history.back();
 
-			this.navigate(fragment._wrapped, { silent: true });
-		}, this);
-	},
+      var args = Array.prototype.splice.call(arguments, 1);
+      var route = events[ev].split(/\/:\w+\/?/, args.length);
+      var fragment = _.chain(route).zip(args).flatten().join('/');
 
-	route:function(route, name){
-		var controllers = Juxtanews.controllers
+      console.log('controller#trigger', ev, args);
 
-		Backbone.Router.prototype.route.call(this, route, name, function(){
-			console.log('route', name);
-			var args = Array.prototype.slice.call(arguments);
+      this.navigate(fragment._wrapped);
+    }, this);
+  },
 
-			args.unshift(name);
-			controllers.trigger.apply(controllers, args);
-		});
-	}
+  route:function(route, name){
+    Backbone.Router.prototype.route.call(this, route, name, function(){
+      console.log('route', name);
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(name);
+
+      this.controllers.trigger.apply(this.controllers, args);
+    });
+  }
 });

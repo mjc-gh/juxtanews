@@ -9,6 +9,14 @@ class SnapshotTest < ActiveSupport::TestCase
     assert ss.errors.include?(:site)
   end
 
+  test "site ident required" do
+    site = build :site
+    ss = build :snapshot
+
+    assert ss.invalid?
+    assert ss.errors.include?(:site_ident)
+  end
+
   test "image required" do
     site = build :site
     ss = build :snapshot, image: nil, site: site

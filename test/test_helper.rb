@@ -17,7 +17,7 @@ class ActiveSupport::TestCase
   end
 
   def with_json_body
-    json = JSON.parse(response.body)
+    json = JSON.parse(response.body, symbolize_keys: true)
     json = json.with_indifferent_access if Hash === json
 
     yield json

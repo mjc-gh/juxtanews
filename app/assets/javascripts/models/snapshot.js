@@ -1,26 +1,26 @@
 Juxtanews.extend({
-	Snapshot: Backbone.Model.extend({
-		url:function(){
-			return '/sites/'+ this.site.id +'/snapshots/'+ this.id +'.json';
-		},
+  Snapshot: Backbone.Model.extend({
+    url:function(){
+      return '/sites/'+ this.site.id +'/snapshots/'+ this.id +'.json';
+    },
 
-		initialize:function(site, id){
-			this.site = site;
-			this.id = id;
-		}
-	}),
+    initialize:function(site, id){
+      this.site = site;
+      this.id = id;
+    }
+  }),
 });
 
 Juxtanews.extend({
-	SnapshotList: Backbone.Collection.extend({
-		url:function(){
-			return '/sites/'+ this.site.id +'/snapshots.json';
-		},
+  SnapshotList: Backbone.Collection.extend({
+    url:function(){
+      return '/sites/'+ this.site.id +'/snapshots.json';
+    },
 
-		initialize:function(site){
-			this.site = site;
-		}
+    initialize:function(site){
+      this.site = site;
+    }
 
-		// TODO setup auto refresh
-	})
+    // TODO setup auto refresh
+  })
 });

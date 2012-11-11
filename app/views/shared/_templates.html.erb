@@ -1,0 +1,43 @@
+<script id="site-index-ctrl-tmpl" type="text/template">
+  {{ _.each(groups, function(sites, category){ }}
+    <h1>{{= titleize(category) }}</h1>
+    <ul data-category="{{= category }}">
+      {{ _.each(sites, function(site){ }}
+        <li data-site="{{= site.id }}">
+          <input type="checkbox" id="{{= site.id }}-input" checked> <i></i>
+          <label for="{{= site.id }}-input">{{= site.get('name') }}</label>
+        </li>
+      {{ }); }}
+    </ul>
+  {{ }); }}
+</script>
+
+<script id="site-index-tmpl" type="text/template">
+  <ul class="snapshots"></ul>
+</script>
+
+<script id="site-node-tmpl" type="text/template">
+  {{ if (last_snapshot_preview) { }}
+    <img src="{{= last_snapshot_preview }}">
+    <strong>{{= ld(last_snapshot_at) }}</strong>
+  {{ } else { }}
+    <em>No Image Available!</em>
+  {{ } }}
+  <%# <button>View More Snapshots &raquo;</botton> %>
+</script>
+
+<script id="site-view-tmpl" type="text/template">
+  {{ _.each(snapshots, function(snapshot){ }}
+    <li>
+      <div><img src="{{= snapshot.thumbnail }}" data-id="{{= snapshot.id }}"></div>
+      <p><strong>{{= ld(snapshot.created_at) }}</strong></p>
+    </li>
+    {{ }); }}
+</script>
+
+<script id="snapshot-preview-tmpl" type="text/template">
+  <div class="wrap">
+    <img src="{{= original }}">
+  </div>
+  <strong>{{= site_name }}</strong>
+</script>

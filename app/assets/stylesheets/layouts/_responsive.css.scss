@@ -1,0 +1,13 @@
+@media screen {
+  @media (min-width: 1425px) {
+    #page {
+      > #sites-index, #sites-view { width: $cell * 3; }
+    }
+  }
+
+  @media (max-width:980px) {
+    //#top, #page, #footer {
+    //  > .content { width: $cell; }
+    //}
+  }
+}

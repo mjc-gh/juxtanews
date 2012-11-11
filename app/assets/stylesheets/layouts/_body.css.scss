@@ -1,0 +1,26 @@
+html { min-height:100%; }
+body {
+  //background:rgba($bgColor, 0.50);
+  background: url(/assets/bg.png);
+  color: $color;
+
+  //background-color: rgb(255,255,255);
+  //@include filter-gradient(#F1F1F1, #E1E1E1, vertical);
+  //$experimental-support-for-svg: true;
+  //@include background-image(linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%));
+
+  a { color: $color; text-decoration:none; }
+}
+
+#page {
+  padding-top:160px;
+
+  #sites-index, #sites-view {
+    position:relative;
+
+    width:($cell + $gutter) * 2;
+    margin:0 auto;
+  }
+}
+//http://subtlepatterns.com/brilliant/
+//http://subtlepatterns.com/blizzard/

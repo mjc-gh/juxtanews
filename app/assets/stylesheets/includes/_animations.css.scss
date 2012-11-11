@@ -1,0 +1,22 @@
+@include keyframes(giggity) {
+  $i: 25%;
+
+  0%   { color: $color; }
+  @each $color in $colorScheme {
+    #{$i} { color: darken($color, 20%) }
+
+    $i: $i + 25%;
+  }
+  100% { color: $color; }
+}
+
+
+@include keyframes(blink){
+  0%   { opacity:1.00;  }
+  50%  { opacity:0.25; }
+  100% { opacity:1.00;  }
+}
+
+.blink {
+  @include animation(blink 1s linear 0s 6);
+}

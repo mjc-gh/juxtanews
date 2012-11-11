@@ -16,13 +16,13 @@ class Site < ActiveRecord::Base
     self.ident = name.parameterize unless name.blank?
   end
 
-  def self.with_stale_snapshots
-    where('last_snapshot_at IS NULL OR last_snapshot_at <= ?', [Time.now - STALE_DELAY])
+  def self.with_stale_snapshots(limit = nil)
+    where('last_snapshot_at IS NULL OR last_snapshot_at <= ?', [Time.now - STALE_DELAY]).limit(limit)
   end
 
   def serializable_hash(options = {})
     options = {
-      only: [ :name, :ident, :url, :last_snapshot_id, :last_snapshot_at, :last_snapshot_preview ],
+      only: [ :name, :ident, :url, :category, :last_snapshot_id, :last_snapshot_at, :last_snapshot_preview ],
     }
 
     super options

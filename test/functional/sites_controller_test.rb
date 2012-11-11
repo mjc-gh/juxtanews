@@ -5,6 +5,13 @@ class SitesControllerTest < ActionController::TestCase
     stub_paperclip!
   end
 
+  test "home (as root)" do
+    get :home
+
+    assert_template :index
+    assert_response :success
+  end
+
   test "index json empty" do
     get :index, format: :json
     assert_response :success

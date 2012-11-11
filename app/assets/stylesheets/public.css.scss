@@ -1,112 +1,44 @@
 @import "compass/utilities/general/clearfix";
 @import "compass/reset";
 @import "compass/css3";
-@import "mixins";
+@import "animate";
 
-$logoColor:#EFEFEF;
+$color:#0C0101;
+$bgColor:#FEFEFE;
 
-$color: #333;
-$border: #666;
+$border:#AAAA99;
+$borderLight: #E8E6D9;
 
-$borderLight: #CCC;
-$borderLighter:#AAA;
+// let them eat cake
+//$colorScheme: #C5E0DC, #ECE5CE, #F1D4AF, #E08E79;
+
+// thought provoking
+//$colorScheme: #C02942, #D85B43, #ECD078, #53777A, #542437;
+
+// ocean five
+//$colorScheme: #CC333F, #EB6841, #EDC951, #6A4A3C, #00A0B0;
+
+// Legos!
+$colorScheme:#EE1313, #4979C0, #3DA239, #FFE942;
+
+//$headerStart:
+//$headerStop:
 
 $cell:475px;
+$gutter:20px;
 $thumbnail:220px;
 
-html, body { background:#FFF; }
-a { color: $color; text-decoration:none; }
+$fontFamily:'Philosopher', serif;
+$handFont:'Give You Glory', cursive;
+//$fontFamily:'Permanent Marker', cursive;
 
-#top, #page, #footer {
-  > .content {
-    width: $cell * 2;
-    margin:0 auto;
-  }
-}
+@import "includes/animations";
+@import "includes/mixins";
 
-#top {
-  @include pie-clearfix();
+@import "layouts/header";
+@import "layouts/body";
+@import "layouts/icons";
 
-  background-color: rgb(0,0,0);
-  @include filter-gradient(#151515, #2D2D2D, vertical);
-  $experimental-support-for-svg: true;
-  @include background-image(linear-gradient(top, #151515 0%, #2D2D2D 100%));
-  @include box-shadow(0 1px 2px rgba(0,0,0,.55), inset 0 -2px 0 rgba(0,0,0,.1));
-
-  width:100%;
-  height:50px;
-  margin:0 0 20px;
-
-  .content {
-    height:100%;
-
-    h1 {
-      float:left;
-
-      width:200px;
-      margin:-10px 0 0;
-
-      > em {
-        font-style:italic;
-        margin-right:0.1em;
-      }
-
-      > a {
-        color:$logoColor;
-        text-decoration:none;
-
-        font-family: 'News Cycle', sans-serif;
-        font-size:48px;
-      }
-    }
-
-    ul {
-      float:right;
-
-      li {
-        display:inline-block;
-
-        a {
-          color:$logoColor;
-          font-weight:bold;
-          font-size:16px;
-          font-family: 'News Cycle', sans-serif;
-        }
-      }
-    }
-  }
-}
-
-#footer {
-  margin:60px 0;
-  text-align:center;
-  font-family: 'News Cycle', sans-serif;
-  font-size:14px;
-  color:$color;
-}
-
-@-webkit-keyframes giggity {
-  0%   { color: #FFF; }
-  25%  { color: #C00; }
-  50%  { color: #0C0; }
-  75%  { color: #22F; }
-  100% { color: #FFF; }
-}
-
-.logo {
-  -webkit-animation-name: giggity;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-duration: 99s;
-}
-
-
-// generic styles
-@import "icons";
-
-// specific components
-@import "site-list";
-@import "site";
+@import "sites";
+@import "snapshots";
 @import "preview";
-
-// responsive (media query) layouts
-@import "responsive";

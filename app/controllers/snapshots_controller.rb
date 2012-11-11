@@ -4,11 +4,11 @@ class SnapshotsController < ApplicationController
   def index
     offset = params[:offset]
 
-    respond_with @site.snapshots.limit(20).offset(offset || 0)
+    respond_with @site.snapshots.limit(20).offset(offset || 0).as_json(:methods => [ :thumbnail ])
   end
 
   def latest
-    respond_with @site.latest_snapshot
+    respond_with @site.last_snapshot
   end
 
   def show

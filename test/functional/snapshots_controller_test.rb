@@ -20,7 +20,10 @@ class SnapshotsControllerTest < ActionController::TestCase
     get :index, site_id: @site, format: :json
     assert_response :success
 
-    with_json_body { |json| assert_equal 5, json.size }
+    with_json_body do |json|
+      assert_equal 5, json.size
+      assert json.first.include?('thumbnail')
+    end
   end
 
   test "index json with offset" do
@@ -41,7 +44,6 @@ class SnapshotsControllerTest < ActionController::TestCase
     with_json_body do |json|
       assert json.include?(:id)
       assert json.include?(:original)
-      assert json.include?(:preview)
       assert json.include?(:created_at)
     end
   end

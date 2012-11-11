@@ -45,7 +45,6 @@ class SiteTest < ActiveSupport::TestCase
 
   test "with stale snapshots with nil" do
     create :site
-
     assert_equal 1, Site.with_stale_snapshots.count
   end
 

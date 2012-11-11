@@ -1,81 +1,122 @@
 // index page site list (enumerates all sites from Collection)
 Juxtanews.extend({
-	SiteListNode: Backbone.View.extend({
-		model: Juxtanews.Site,
+  SiteListNode: Backbone.View.extend({
+    model: Juxtanews.Site,
+    template: '#site-node-tmpl',
 
-		template: '#site-node-tmpl',
-		tagName: 'li',
+    className: 'snapshot',
+    tagName: 'li',
 
-		initialize:function(options){
-			this.model.on('change', this.render, this);
-		},
+    initialize:function(options){
+      this.container = options.container;
+      this.model.on('change', this.render, this);
+    },
 
-		render: function(){
-			if (!this.template.call)
-				this.template = Juxtanews.tmpl(this.template);
+    render: function(){
+      if (this.$el.is(':empty')){
+        this.$el.html(this.template(this.model.attributes));
 
-			if (this.$el.is(':empty')){
-				this.$el.html(this.template(this.model.attributes));
+        this.$el.img = this.$el.find('img');
+        this.$el.time = this.$el.find('strong');
 
-				this.$el.img = this.$el.find('img');
-				this.$el.time = this.$el.find('strong');
+      } else if (this.model.hasChanged('visible')) {
+        var state = this.model.get('visible') === true;
 
-			} else {
-				var attributes = this.model.attributes;
+        if (state)
+          this.$el.fadeIn(500);
+        else
+          this.$el.fadeOut(500);
 
-				var time = this.$el.time.fadeOut(250, function(){
-					time.text(ld(attributes.last_snapshot_at)).fadeIn(250).addClass('blink')
-					// remove blink class after 5 seconds
-					time.animate({_:0}, 5000, function(){ $(this).removeClass('blink'); });
-				});
+      } else {
+        var attributes = this.model.attributes;
+        var timeEl = this.$el.time;
+        var imgEl = this.$el.img;
+        var img = new Image;
+        var t = 500;
 
-				var imgEl = this.$el.img.fadeOut(250, function(){
-					var img = new Image;
-					img.src = attributes.last_snapshot_preview;
+        this.$el.img.fadeOut(t, function(){
+          img.src = attributes.last_snapshot_preview;
 
-					$(img).on('load', function(){
-						imgEl.prop('src', img.src).fadeIn(250);
-					});
-				});
-			}
+          $(img).on('load', function(){
+            imgEl.prop('src', img.src).fadeIn(t, function(){
+              timeEl.text(ld(attributes.last_snapshot_at)).addClass('blink');
+            });
+          });
+        });
+      }
 
-			return this;
-		},
+      return this;
+    },
 
-		events: {
-			'click button': function(){
-				Juxtanews.controllers.trigger('sites:show', this.model.id);
-			},
+    events: {
+      'click button': function(){
+        Juxtanews.controllers.trigger('sites:show', this.model.id);
+      },
 
-			'click img':function(){
-				Juxtanews.controllers.trigger('snapshots:show', this.model.id, this.model.attributes.last_snapshot_id);
-			}
-		}
-	}),
+      'click img':function(){
+        Juxtanews.controllers.trigger('snapshots:show', this.model.id, this.model.attributes.last_snapshot_id);
+      }
+    }
+  }),
 
-	SiteListView: Backbone.View.extend({
-		id: 'sites-list',
-		tagName: 'ul',
+  SiteListControl: Backbone.View.extend({
+    id: 'site-list-controls',
+    template: '#site-index-ctrl-tmpl',
 
-		parent: '#page .content',
+    initialize:function(options){
+      this.listView = options.view;
+    },
 
-		initialize:function(sites){
-			this.sites = sites;
-			this.sites.on('reset', this.render, this);
-		},
+    render:function(){
+      this.$el.html(this.template({
+        groups: this.listView.collection.byCategory()
+      }));
+
+      return this;
+    },
+
+    events:{
+      'click input[type="checkbox"]':function(ev){
+        var parent = $(ev.target).parent();
+        var ident = parent.data('site');
+
+        var site = this.listView.collection.find(function(site){
+          return site.id == ident;
+        });
+
+        site.set('visible', ev.target.checked);
+      }
+    }
+  }),
+
+  SiteListView: Backbone.View.extend({
+    id: 'sites-index',
+    template: '#site-index-tmpl',
+    parent: '#page',
+
+    initialize:function(collection){
+      this.collection = collection;
+      this.collection.on('reset', this.render, this);
+    },
 
 		render:function(){
-			var list = this.$el.appendTo(this.parent);
+			var groups = this.collection.byCategory();
+			var tmpl = $(this.template());
+			var list = tmpl.first();
 
-			this.sites.each(function(site){
-				var node = new Juxtanews.SiteListNode({ model: site });
+			// init and render index controls
+			var ctrl = new Juxtanews.SiteListControl({ view: this });
+			this.$el.append(ctrl.render().el);
 
-				list.append(node.render().el);
-			});
+			// init and render each SiteListNode (Site model)
+			_.each(groups, function(sites, name){
+				_.each(sites, function(site){
+					list.append(new Juxtanews.SiteListNode({ model: site }).render().el);
+				}, this);
+			}, this);
+
+			this.$el.appendTo(this.parent).append(tmpl);
 		}
 	})
 });
 
-$(document).on('error', 'img', function(){
-	console.log('error', this);
-});
