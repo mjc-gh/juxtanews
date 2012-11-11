@@ -12,4 +12,16 @@ namespace :newsie do
 
     Newsie::fetch(site)
   end
+
+  desc "Find by name"
+  task :find => :environment do
+    name = "%#{ENV['NAME']}%"
+
+    Site.where('name ILIKE ?', name).each do |site|
+      puts "Found #{site.name}"
+      puts "\tid: #{site.id}"
+      puts "\tident: #{site.ident}"
+      puts "\turl: #{site.url}"
+    end
+  end
 end

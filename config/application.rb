@@ -9,6 +9,8 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+ActiveSupport::JSON::Encoding.escape_html_entities_in_json = true
+
 module Juxtanews
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

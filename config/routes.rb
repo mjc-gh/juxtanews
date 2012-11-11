@@ -1,5 +1,5 @@
 Juxtanews::Application.routes.draw do
-  root controller: :static, action: :root
+  root controller: :sites, action: :home
 
   resources :sites, only: [:show, :index] do
     resources :snapshots, only: [:show, :index] do

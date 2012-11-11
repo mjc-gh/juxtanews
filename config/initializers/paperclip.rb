@@ -1,4 +1,4 @@
 Paperclip.interpolates :site_ident do |attachment, style|
-  attachment.instance.site.ident
+  attachment.instance.site_ident
 end
 

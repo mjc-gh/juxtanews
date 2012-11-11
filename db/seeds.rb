@@ -1,32 +1,42 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-ite
+# Our Sites...
+{
   'media' => {
     'CNN' => { url: 'http://www.cnn.com/', position: 1 },
     'FOX News' => { url: 'http://www.foxnews.com/', position: 2 },
-    'NBC News' => { url: 'http://www.nbcnews.com', position: 3 }
+    'NBC News' => { url: 'http://www.nbcnews.com', position: 3 },
+    'ABC News' => { url: 'http://abcnews.go.com/', position: 4 },
+    'CBS News' => { url: 'http://www.cbsnews.com/', position: 5 }
   },
 
   'print' => {
-    'New York Times' => { url: 'http://www.nytimes.com/', position: 4 },
-    'Washington Post' => { url: 'http://www.washingtonpost.com/', position: 5 },
-    'The Guardian' => { url: 'http://www.guardiannews.com/', position: 6 }
+    'Washington Post' => { url: 'http://www.washingtonpost.com/', position: 21 },
+    'New York Times' => { url: 'http://www.nytimes.com/', position: 22 },
+    'The Guardian' => { url: 'http://www.guardiannews.com/', position: 23 }
+  },
+# Townhall (R)
+# The Nation (L)
+# Red State (R)
+  'web' => {
+    'The Huffington Post' => { url: 'http://www.huffingtonpost.com/', position: 41 },
   }
+
 }.each do |category, sites|
   sites.each do |name, hash|
-    next if Site.find_by_url(hash[:url])
+    attrs = { name: name, url: hash[:url], category: category, position: hash[:position] }
 
-    site = Site.new(name: name, url: hash[:url], position: hash[:position])
+    if site = Site.find_by_url(hash[:url])
+      site.update_attributes(attrs)
 
-    if site.save
-      puts "Site Saved: #{site.name}"
+      puts "Site Updated: #{site.name}"
+
     else
-      puts "Site Error: #{site.errors.full_messages.join(', ')}"
+      site = Site.new(attrs)
+
+      if site.save
+        puts "Site Saved: #{site.name}"
+      else
+        puts "Site Error: #{site.errors.full_messages.join(', ')}"
+      end
     end
   end
 end

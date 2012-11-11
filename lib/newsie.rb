@@ -81,22 +81,19 @@ class Newsie
       loop do
         break if stop?
 
-        sites = Site.with_stale_snapshots
+        sites = Site.with_stale_snapshots(4)
         Newsie.log "Found #{sites.size} Stale Sites..."
 
-        threads = sites.map do |site|
-          Thread.new do
-            bm = Benchmark.measure do
-              Newsie.fetch(site)
-              ActiveRecord::Base.connection.close
-            end
-
-            Newsie.log "Processed #{site.name} in #{bm.real} seconds"
+        sites.map do |site|
+          bm = Benchmark.measure do
+            Newsie.fetch(site)
+            ActiveRecord::Base.connection.close
           end
-        end
 
-        threads.map(&:join)
-        break if stop?
+          Newsie.log "Processed #{site.name} in #{bm.real} seconds"
+
+          break if stop?
+        end
 
         # wait a bit before polling against
         sleep Site::STALE_DELAY / 10.0

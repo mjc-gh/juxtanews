@@ -9,11 +9,17 @@ gem 'aws-sdk', '~> 1.3.4'
 gem 'imgkit'
 
 group :assets do
+  gem 'sass', '~> 3.2.0.alpha.93'
+  gem 'compass', '~> 0.13.alpha.0'
+
   gem 'sass-rails'
   gem 'compass-rails'
+  gem 'animate'
 end
 
 group :test, :development do
+  gem 'quiet_assets'
+
   gem 'guard'
   gem 'guard-test'
 end
@@ -30,4 +36,4 @@ group :newsie do
 end
 
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'ruby-debug19', :require => 'ruby-debug'
